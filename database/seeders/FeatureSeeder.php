@@ -26,7 +26,6 @@ class FeatureSeeder extends Seeder
 
         foreach ($features as $feature) {
             Feature::updateOrCreate([
-                'car_id' => 1,
                 'feature' => $feature,
             ]);
         }

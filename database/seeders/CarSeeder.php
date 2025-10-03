@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Car;
+use App\Models\Feature;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +14,7 @@ class CarSeeder extends Seeder
      */
     public function run(): void
     {
-        
+        $featuresId = Feature::select('id')->get();
         Car::updateOrCreate([
             'image' =>'1.jpg',
             'car_name' =>'Mercedes Grand Sedan',
@@ -25,6 +26,7 @@ class CarSeeder extends Seeder
             'car_seats' =>'5 Adults',
             'car_luggage' =>'4 Bags',
             'car_fuel' =>'Petrol',
-        ]);
+        ])->features()->sync($featuresId->pluck('id'));
+
     }
 }

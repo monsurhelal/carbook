@@ -9,4 +9,10 @@ class Car extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
+
+    // relation with features
+
+    public function features() {
+        return $this->belongsToMany(Feature::class);
+    }
 }
