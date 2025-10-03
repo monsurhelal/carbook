@@ -13,11 +13,11 @@
                     <li class="nav-label">system settings</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon icon-app-store"></i><span class="nav-text">Apps</span>
+                            <i class="icon icon-app-store"></i><span class="nav-text">Cars</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Profile</a></li>
-                            <li><a href="./app-calender.html">Calendar</a></li>
+                            <li><a href="./app-profile.html">Cars List </a></li>
+                            <li><a href="./app-calender.html">Create Cars</a></li>
                         </ul>
                     </li>
                 </ul>
