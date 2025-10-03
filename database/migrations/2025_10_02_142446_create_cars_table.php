@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('image');
             $table->string('car_name');
-            $table->string('car_description');
+            $table->longText('car_description');
             $table->string('car_mileage');
             $table->string('car_transmission');
             $table->string('car_seats');
