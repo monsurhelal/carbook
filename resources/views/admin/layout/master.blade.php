@@ -14,7 +14,7 @@
     <!--*******************
         Preloader start
     ********************-->
-        @include('admin.layout.inc.preloader')
+        {{-- @include('admin.layout.inc.preloader') --}}
     <!--*******************
         Preloader end
     ********************-->

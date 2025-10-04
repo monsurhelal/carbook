@@ -11,6 +11,6 @@ class Feature extends Model
     // relation with car 
 
     public function car(){
-        return $this->belongsToMany(Car::class)->wherePivot('car_id');
+        return $this->belongsToMany(Car::class)->withPivot('car_id');
     }
 }

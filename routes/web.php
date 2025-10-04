@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\CarController;
+use App\Http\Controllers\Backend\FeatureController;
 use App\Http\Controllers\Backend\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ Route::prefix('admin')->group(function(){
     Route::middleware('adminAuth')->group(function(){
         
         Route::get('/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+        Route::resource('/feature',FeatureController::class);
         Route::resource('/car',CarController::class);
     });
 });
