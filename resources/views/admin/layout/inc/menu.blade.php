@@ -25,8 +25,8 @@
                             <i class="icon icon-app-store"></i><span class="nav-text">Cars</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Cars List </a></li>
-                            <li><a href="./app-calender.html">Create Cars</a></li>
+                            <li><a href="{{ route('car.index') }}">Cars List </a></li>
+                            <li><a href="{{ route('car.create') }}">Car Create</a></li>
                         </ul>
                     </li>
                 </ul>

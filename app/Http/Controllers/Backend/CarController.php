@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Car;
+use App\Models\Feature;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -12,7 +14,10 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        $cars = Car::with('features:id,feature')
+        ->select('id','image','car_name','car_description','car_mileage','car_transmission','car_seats','car_luggage','car_fuel','updated_at')->get();
+        // return $cars;
+        return view('admin.pages.car.index',compact('cars'));
     }
 
     /**
@@ -20,7 +25,9 @@ class CarController extends Controller
      */
     public function create()
     {
-        //
+        $features = Feature::select('id','feature')->get();
+        // return $features;
+        return view('admin.pages.car.create',compact('features'));
     }
 
     /**

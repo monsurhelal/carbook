@@ -7,4 +7,6 @@
     <link href="{{ asset('admin') }}/vendor/chartist/css/chartist.min.css" rel="stylesheet">
     <link href="{{ asset('admin') }}/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+  
+  
     @stack('admin_style')

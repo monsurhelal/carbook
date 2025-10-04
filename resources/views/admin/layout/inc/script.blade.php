@@ -6,7 +6,7 @@
 
     <script src="{{ asset('admin') }}/vendor/moment/moment.min.js"></script>
     <script src="{{ asset('admin') }}/vendor/pg-calendar/js/pignose.calendar.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script src="{{ asset('admin') }}/js/dashboard/dashboard-2.js"></script>
         // toastr massage
