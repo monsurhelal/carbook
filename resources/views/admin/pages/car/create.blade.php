@@ -17,15 +17,15 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('car.store') }}" method="POST">
+                <form action="{{ route('car.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                    <div class="mb-3">
                         <label for="carName" class="form-label">Car Image</label>
-                        <input type="file" class="dropify" data-height="300" />
+                        <input type="file" name="image" class="dropify" data-height="300" />
                     </div>
                    <div class="mb-3">
                         <label for="carName" class="form-label">Car Name</label>
-                        <input type="text" class="form-control" id="carName" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="car_name" id="carName" aria-describedby="emailHelp">
                     </div>
                    <div class="mb-3">
                         <label for="carName" class="form-label">Car Description</label>
@@ -34,28 +34,44 @@
                     </div>
                    <div class="mb-3">
                         <label for="carName" class="form-label">car mileage</label>
-                        <input type="text" class="form-control" id="carName" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="car_mileage" id="carName" aria-describedby="emailHelp">
                     </div>
                    <div class="mb-3">
                         <label for="carName" class="form-label">car transmission</label>
-                        <input type="text" class="form-control" id="carName" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="car_transmission" id="carName" aria-describedby="emailHelp">
                     </div>
                    <div class="mb-3">
                         <label for="carName" class="form-label">car seats</label>
-                        <input type="text" class="form-control" id="carName" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="car_seats" id="carName" aria-describedby="emailHelp">
                     </div>
                    <div class="mb-3">
                         <label for="carName" class="form-label">car luggage</label>
-                        <input type="text" class="form-control" id="carName" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="car_luggage" id="carName" aria-describedby="emailHelp">
                     </div>
                    <div class="mb-3">
                         <label for="carName" class="form-label">car fuel</label>
-                        <input type="text" class="form-control" id="carName" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="car_fuel" id="carName" aria-describedby="emailHelp">
                     </div>
 
-
-                    @foreach ($features as $feature)
-                        <span>{{ $feature->feature }}</span>
+                    <div class="mb-3">
+                        <h4>select features for this car</h4>
+                        <input type="checkbox" class="form-check-input" id="check1" value="">
+                        <label class="form-check-label" for="check1">select all</span></label>
+                    </div>
+                    @foreach ($features->chunk(2) as $features)
+                    <div class="row">
+                        @foreach ($features as $feature)
+                        <div class="col-md-6">
+                            <div class="form-check mb-2">
+                                <input type="checkbox" class="form-check-input"
+                                 id="check1"
+                                 name="featuresId[]"
+                                 value="{{ $feature->id }}">
+                                <label class="form-check-label" for="check1"><span>{{ $feature->feature }}</span></label>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
                     @endforeach
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

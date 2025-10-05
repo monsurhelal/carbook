@@ -1,6 +1,14 @@
 @extends('admin.layout.master')
 @section('admin_title','dashboard')
 
+<style>
+    img.rounded {
+    height: 79px;
+    width: 80px;
+    border-radius: 50% !important;
+}
+</style>
+
 @section('admin_main_content')
 <div class="row">
     <div class="col-lg-12">
@@ -32,7 +40,9 @@
                             @foreach ($cars as $car)
                                 <tr>
                                     <td>{{ $car->updated_at->format('D-M-Y') }}</td>
-                                    <th>{{ $car->image }}</th>
+                                    <th>
+                                        <img src="{{ asset('admin/assets/images/cars/') }}/{{ $car->image }}" class="rounded" alt="Cinque Terre">
+                                    </th>
                                     <td>
                                         @foreach ($car->features as $feature)
                                             <span class=" m-1 badge badge-primary">{{ $feature->feature }}</span>
