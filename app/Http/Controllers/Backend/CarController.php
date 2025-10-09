@@ -17,7 +17,9 @@ class CarController extends Controller
     public function index()
     {
         $cars = Car::with('features:id,feature')
-        ->select('id','image','car_name','car_description','car_mileage','car_transmission','car_seats','car_luggage','car_fuel','updated_at')->get();
+        ->select('id','image','car_name','car_description','car_mileage',
+        'car_transmission','car_seats','car_luggage','car_fuel','updated_at')
+        ->get();
         // return $cars;
         return view('admin.pages.car.index',compact('cars'));
     }
@@ -70,7 +72,10 @@ class CarController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $car = Car::with('features')->find($id);
+        $features = Feature::select('id','feature')->get();
+        // return $car;
+        return view('admin.pages.car.edit',compact('features','car'));
     }
 
     /**
@@ -78,7 +83,27 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // dd($request->all());
+        $car = Car::find($id);
+        $image = $request->file('image');
+        $path = 'admin/assets/images/cars';
+        $new_name = time() .'.' . $image->getClientOriginalExtension();
+        $image->move($path,$new_name);
+
+        $car->update([
+            'image' =>$new_name,
+            'car_name' =>$request->car_name,
+            'car_description' =>$request->ckeditor,
+            'car_mileage' =>$request->car_mileage,
+            'car_transmission' =>$request->car_transmission,
+            'car_seats' =>$request->car_seats,
+            'car_luggage' =>$request->car_luggage,
+            'car_fuel' =>$request->car_fuel,
+        ]);
+        $car->features()->sync($request->input('featuresId',[]));
+
+        Toastr::success('Cars edited successfully!');
+        return redirect()->route('car.index');
     }
 
     /**
@@ -86,6 +111,8 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Car::find($id)->delete();
+        Toastr::success('Cars deleted successfully!');
+        return redirect()->route('car.index');
     }
 }

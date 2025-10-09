@@ -55,7 +55,7 @@
 
                     <div class="mb-3">
                         <h4>select features for this car</h4>
-                        <input type="checkbox" class="form-check-input" id="check1" value="">
+                        <input type="checkbox" class="form-check-input" id="checkBox" value="">
                         <label class="form-check-label" for="check1">select all</span></label>
                     </div>
                     @foreach ($features->chunk(2) as $features)
@@ -63,7 +63,7 @@
                         @foreach ($features as $feature)
                         <div class="col-md-6">
                             <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input"
+                                <input type="checkbox" class="form-check-input feature_id"
                                  id="check1"
                                  name="featuresId[]"
                                  value="{{ $feature->id }}">
@@ -89,6 +89,17 @@
     <script>
     $(document).ready(function() {
         $('.dropify').dropify();
+        $('#checkBox').click(function(){
+            if(this.checked){
+            $('.feature_id').each(function(){
+                this.checked = true;      
+            });
+            }else{
+                $('.feature_id').each(function(){
+                this.checked = false;      
+            });
+            }
+        }); 
     });
     </script>
 @endpush

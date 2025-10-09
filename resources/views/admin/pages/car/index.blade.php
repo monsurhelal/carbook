@@ -14,8 +14,8 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Feature List Page</h4>
-                <a class="btn btn-primary" href="{{ route('feature.create') }}">Add New</a>
+                <h4 class="card-title">Car List Page</h4>
+                <a class="btn btn-primary" href="{{ route('car.create') }}">Add New</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -57,13 +57,13 @@
                                     <td>{{ $car->car_fuel }}</td>
                                    <td>
                                         <span>
-                                            <a href="{{ route('feature.edit',$car->id) }}" class="mr-4 btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <a href="{{ route('car.edit',$car->id) }}" class="mr-4 btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="fa fa-pencil color-muted"></i> Edit
                                             </a>
-                                            <form class="d-inline" action="{{ route('feature.destroy',$car->id) }}" method="POST">
+                                            <form class="d-inline form" action="{{ route('car.destroy',$car->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Close">
+                                                <button class="btn btn-danger show_confirm" type="submit" data-toggle="tooltip" data-placement="top" title="Close">
                                                     <i class="fa fa-close color-danger"></i> Delete
                                                 </button>
                                             </form>
@@ -81,3 +81,35 @@
     </div>
 </div>
 @endsection
+
+@push('admin_script')
+
+<script>
+$(document).ready(function(){
+  $('.show_confirm').click(function(event){
+    event.preventDefault();
+    let form = $('.form');
+    Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    form.submit();
+    Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+    }
+    });
+  });
+});
+
+</script>
+    
+@endpush

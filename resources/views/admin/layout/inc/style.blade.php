@@ -7,6 +7,8 @@
     <link href="{{ asset('admin') }}/vendor/chartist/css/chartist.min.css" rel="stylesheet">
     <link href="{{ asset('admin') }}/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.25.0/dist/sweetalert2.min.css" rel="stylesheet">
   
   
     @stack('admin_style')
