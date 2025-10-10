@@ -29,6 +29,15 @@
                             <li><a href="{{ route('car.create') }}">Car Create</a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon icon-app-store"></i><span class="nav-text">Car Price</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('price.index') }}">Price List </a></li>
+                            <li><a href="{{ route('price.create') }}">Price Create</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

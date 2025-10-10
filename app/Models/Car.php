@@ -15,4 +15,8 @@ class Car extends Model
     public function features() {
         return $this->belongsToMany(Feature::class);
     }
+
+    public function price() {
+        return $this->hasOne(Price::class);
+    }
 }
