@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('admin_title','feature create page')
+@section('admin_title','price edit page')
 
 @section('admin_main_content')
 

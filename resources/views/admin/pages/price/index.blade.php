@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('admin_title','dashboard')
+@section('admin_title','price')
 
 @push('admin_style')
 <style>

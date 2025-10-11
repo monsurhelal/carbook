@@ -5,11 +5,12 @@ use App\Http\Controllers\Backend\CarController;
 use App\Http\Controllers\Backend\FeatureController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PriceController;
+use App\Http\Controllers\frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',function(){
-    return view('welcome');
-});
+Route::get('/',[HomeController::class,'index']);
+
+Route::get('/car/{id}',[HomeController::class,'getCarId']);
 
 Route::prefix('admin')->group(function(){
     // login routes 
