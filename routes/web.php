@@ -6,12 +6,19 @@ use App\Http\Controllers\Backend\FeatureController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PriceController;
 use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\frontend\RentACarController;
 use Illuminate\Support\Facades\Route;
 
+
+
+
 Route::get('/',[HomeController::class,'index']);
+Route::resource('rentacar', RentACarController::class);
+Route::get('/car/{id}',[RentACarController::class,'getCarId']);
 
-Route::get('/car/{id}',[HomeController::class,'getCarId']);
 
+
+/// admin routes 
 Route::prefix('admin')->group(function(){
     // login routes 
     Route::get('login',[LoginController::class,'loginForm']);
@@ -28,3 +35,6 @@ Route::prefix('admin')->group(function(){
         Route::resource('/price',PriceController::class);
     });
 });
+
+
+

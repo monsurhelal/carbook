@@ -14,10 +14,4 @@ class HomeController extends Controller
     return view('frontend.pages.home.home',compact('cars'));
    }
 
-   public function getCarId($id){
-    $car = Car::select('id','image','car_name')->find($id);
-    return response()->json([
-      'success' => $car
-    ]);
-   }
 }

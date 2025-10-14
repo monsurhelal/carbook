@@ -38,6 +38,14 @@
                             <li><a href="{{ route('price.create') }}">Price Create</a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon icon-app-store"></i><span class="nav-text">Rent A Car</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('rentacar.index') }}">Rental trip list</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

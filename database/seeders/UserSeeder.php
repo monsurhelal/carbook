@@ -17,10 +17,10 @@ class UserSeeder extends Seeder
     {
         User::updateOrcreate([
 
-            'role' => '1',
-            'name' => 'md monsur helal',
-            'email' => 'admin@gmail.com',
-            'mobile' => '01813122331',
+            'role' => '0',
+            'name' => 'helal khan',
+            'email' => 'helal@gmail.com',
+            'mobile' => '01512345678',
             'password' => Hash::make('1234'),
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),

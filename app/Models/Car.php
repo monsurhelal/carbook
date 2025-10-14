@@ -19,4 +19,8 @@ class Car extends Model
     public function price() {
         return $this->hasOne(Price::class);
     }
+
+    public function rentacar() {
+        return $this->hasMany(RentACar::class);
+    }
 }

@@ -1,34 +1,24 @@
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Carbook - Free Bootstrap 4 Template by Colorlib</title>
-@include('frontend.layout.inc.style')
+@extends('frontend.pages.master')
+@section('frontend_title','home page')
 <style>
 	img.display_car {
     width: 200px;
     margin-top: 20px;
 }
 </style>
-  </head>
-  <body>
-    
-@include('frontend.layout.inc.nav')
-    <!-- END nav -->
-    
-@include('frontend.layout.inc.hero_section')
-
-     <section class="ftco-section ftco-no-pt bg-light">
+@section('frontend_main_content')
+	    <section class="ftco-section ftco-no-pt bg-light">
     	<div class="container">
     		<div class="row no-gutters">
     			<div class="col-md-12	featured-top">
     				<div class="row no-gutters">
 	  					<div class="col-md-4 d-flex align-items-center">
-	  						<form action="#" class="request-form ftco-animate bg-primary">
+	  						<form action="{{ route('rentacar.store') }}" method="POST" class="request-form ftco-animate bg-primary">
+								@csrf
 		          			<h2>Make your trip</h2>
 								<div class="form-group">
 									<label for="" class="label">select a car</label>
-									<select class="form-control" name="" id="selectCar" onchange="showCar()">
+									<select class="form-control" name="carId" id="selectCar" onchange="showCar()">
 										<option>select a car</option>
 										@foreach ($cars as $car)
 											<option class="text-primary" value="{{ $car->id}}">{{ $car->car_name }}</option>
@@ -37,25 +27,25 @@
 			    				</div>
 			    				<div class="form-group">
 			    					<label for="" class="label">Pick-up location</label>
-			    					<input type="text" class="form-control" placeholder="City, Airport, Station, etc">
+			    					<input type="text" name="Pick_up_location" class="form-control" placeholder="City, Airport, Station, etc">
 			    				</div>
 			    				<div class="form-group">
 			    					<label for="" class="label">Drop-off location</label>
-			    					<input type="text" class="form-control" placeholder="City, Airport, Station, etc">
+			    					<input type="text" name="drop_off_location" class="form-control" placeholder="City, Airport, Station, etc">
 			    				</div>
 			    				<div class="d-flex">
 			    					<div class="form-group mr-2">
 			                <label for="" class="label">Pick-up date</label>
-			                <input type="text" class="form-control" id="book_pick_date" placeholder="Date">
+			                <input type="text" name="pick_up_date" class="form-control" id="book_pick_date" placeholder="Date">
 			              </div>
 			              <div class="form-group ml-2">
 			                <label for="" class="label">Drop-off date</label>
-			                <input type="text" class="form-control" id="book_off_date" placeholder="Date">
+			                <input type="text" name="drop_off_date" class="form-control" id="book_off_date" placeholder="Date">
 			              </div>
 		              </div>
 		              <div class="form-group">
 		                <label for="" class="label">Pick-up time</label>
-		                <input type="text" class="form-control" id="time_pick" placeholder="Time">
+		                <input type="text" name="time_pick" class="form-control" id="time_pick" placeholder="Time">
 		              </div>
 			            <div class="form-group">
 			              <input type="submit" value="Rent A Car Now" class="btn btn-secondary py-3 px-4">
@@ -90,7 +80,7 @@
 					              </div>
 					            </div>      
 					          </div>
-					          <div class="col-md-4 d-flex align-self-stretch ftco-animate car_image_display">
+					          <div class="col-md-4 align-self-stretch ftco-animate car_image_display">
 					                  
 					          </div>
 					        </div>
@@ -425,23 +415,8 @@
           </div>
         </div>
     	</div>
-    </section>	
-
-@include('frontend.layout.inc.footer')
-    
-  
-
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen">
-    <svg class="circular" width="48px" height="48px">
-        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/>
-    </svg>
-  </div>
-
-
-@include('frontend.layout.inc.script')
-
+    </section>
+@endsection
 
 <script>
 function showCar(){
@@ -464,16 +439,18 @@ function showCar(){
 		  error: function(error) {
 			let data = JSON.parse(error.responseText);
 
-			let display = `<img class="display_car" src="{{ asset('admin/assets/images/cars/${data.success.image}') }}" alt="">`;
+			let display = `
+			<img class="display_car" src="{{ asset('admin/assets/images/cars/${data.success.image}') }}" alt="">
+			<div class="mb-3">
+				<p class="price ml-auto">$ ${data.success.price.daily} <span>/day</span></p>
+		    </div>
+			`;
 
 			$('.car_image_display').html(display);
-			// console.log(data.success.image);
+			// console.log(data.success.price.daily);
 
         }
 
 	});
 }
 </script>
-    
-  </body>
-</html>

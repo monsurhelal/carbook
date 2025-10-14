@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FeatureSeeder::class,
             CarSeeder::class,
-            PriceSeeder::class
+            PriceSeeder::class,
+            RentACarSeeder::class
         ]);
     }
 }
