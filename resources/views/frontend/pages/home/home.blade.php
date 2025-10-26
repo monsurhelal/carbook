@@ -6,8 +6,9 @@
     margin-top: 20px;
 }
 </style>
+
 @section('frontend_main_content')
-	    <section class="ftco-section ftco-no-pt bg-light">
+	<section class="ftco-section ftco-no-pt bg-light">
     	<div class="container">
     		<div class="row no-gutters">
     			<div class="col-md-12	featured-top">
@@ -426,9 +427,6 @@ function showCar(){
 		method:'GET',
 		url:'/car/'+ carId,
 		dataType:'josn',
-		data:function(data){
-			alert(data);
-		},
 		success:function(res){
 
 			alert(res);
@@ -442,12 +440,12 @@ function showCar(){
 			let display = `
 			<img class="display_car" src="{{ asset('admin/assets/images/cars/${data.success.image}') }}" alt="">
 			<div class="mb-3">
-				<p class="price ml-auto">$ ${data.success.price.daily} <span>/day</span></p>
+				<p class="price ml-auto"> ${data.success.price.daily} <span>/day</span></p>
 		    </div>
 			`;
 
 			$('.car_image_display').html(display);
-			// console.log(data.success.price.daily);
+			 console.log(data.success.image);
 
         }
 

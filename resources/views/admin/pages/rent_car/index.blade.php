@@ -34,13 +34,13 @@
                                 <th scope="col">payment</th>
                                 <th scope="col">payment_status</th>
                                 <th scope="col">status</th>
-                                <th scope="col">action</th>
+                                <th scope="col">assing driver</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             @foreach ($rentacars as $rentacar)
-                                <tr>
+                                <tr data-id='{{ $rentacar->id }}'>
                                     <td>{{ $rentacar->user->name }}</td>
                                     <td>{{ $rentacar->user->email }}</td>
                                     <td>{{ $rentacar->user->mobile }}</td>
@@ -51,22 +51,27 @@
                                     <td>{{ $rentacar->drop_off_date }}</td>
                                     <td>{{ $rentacar->pick_up_time }}</td>
                                     <td>{{ $rentacar->payment }}</td>
-                                    <td>{{ $rentacar->payment_status }}</td>
+                                    <td>
+                                        @if ($rentacar->payment_status == 0)
+                                            <span class="badge badge-warning">pending</span>
+                                        @else
+                                            <span class="badge badge-success">paid</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $rentacar->status }}</td>
                                    <td>
-                                        <span>
-                                            <a href="{{ route('car.edit',$rentacar->id) }}" class="mr-4 btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                <i class="fa fa-pencil color-muted"></i> Edit
-                                            </a>
-                                            <form class="d-inline form" action="{{ route('car.destroy',$rentacar->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger show_confirm" type="submit" data-toggle="tooltip" data-placement="top" title="Close">
-                                                    <i class="fa fa-close color-danger"></i> Delete
+                                        @if ($rentacar->driver_id != null)
+                                            {{ $rentacar->driver->name }} 
+                                            @else
+                                                <button 
+                                                    type="button" 
+                                                    data-rentcar-id='{{ $rentacar->id }}' 
+                                                    class="assign-btn btn btn-primary"  
+                                                    data-toggle="modal" 
+                                                    data-target="#basicModal">
+                                                    Assign Driver
                                                 </button>
-                                            </form>
-                                            
-                                        </span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -78,34 +83,63 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="basicModal">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <select class="form-control" id="driverId">
+                <option disabled selected>select driver</option>
+                @foreach ($drivers as $driver)
+                    <option value="{{ $driver->id }}">{{ $driver->name }}</option>
+                @endforeach
+                
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="save-btn btn btn-primary">save</button>
+        </div>
+    </div>
+</div>
+</div>
 @endsection
 
 @push('admin_script')
 
 <script>
 $(document).ready(function(){
-  $('.show_confirm').click(function(event){
-    event.preventDefault();
-    let form = $('.form');
-    Swal.fire({
-  title: "Are you sure?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
-}).then((result) => {
-  if (result.isConfirmed) {
-    form.submit();
-    Swal.fire({
-      title: "Deleted!",
-      text: "Your file has been deleted.",
-      icon: "success"
+    $('.assign-btn').on('click',function(){
+        let rentCarId = $(this).data('rentcar-id');
+        $('.save-btn').data('id',rentCarId);
+        // alert('rent a car id :'+rentCarId);
+    })
+    $('.save-btn').on('click',function(){
+        let driverId = $('#driverId').val();
+        let rentCarId = $(this).data('id');
+        // alert('driver id :'+driverId+',rent a car id:'+rentCarId);
+        
+       $.ajax({
+            url:'/admin/assign-driver/'+driverId+'/'+rentCarId,
+            method:'GET',
+            dataType:'json',
+            success: function(data) {
+                
+               $('.modal').modal('hide'); 
+                location.reload(); 
+            },
+            error:function(err){
+                
+            }
+            
+        });
     });
-    }
-    });
-  });
+  
 });
 
 </script>

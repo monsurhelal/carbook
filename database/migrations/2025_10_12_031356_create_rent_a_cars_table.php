@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('rent_a_cars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('car_id')->constrained('cars')->onDelete('cascade');
+            $table->foreignId('driver_id')->nullable()->constrained('drivers');
             $table->foreignId('user_id')->constrained('users');
             $table->string('pick_up_location');
             $table->string('drop_off_location');

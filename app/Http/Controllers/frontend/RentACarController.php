@@ -14,12 +14,7 @@ class RentACarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $rentacars = RentACar::with('car:id,car_name','user:id,name,email,mobile')->get();
-        // return $rentacars;
-        return view('admin.pages.rent_car.index',compact('rentacars'));
-    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -34,8 +29,7 @@ class RentACarController extends Controller
      */
     public function store(RentACarStoreRequest $request)
     {
-        //$userId = Auth::user()->id;
-        // dd($request->all());
+        $userId = Auth::user()->id;
         $pick_up_date = date('d',strtotime($request->pick_up_date));
         $drop_off_date = date('d',strtotime($request->drop_off_date));
         $total_days = ($drop_off_date - $pick_up_date) + 1;
@@ -45,7 +39,7 @@ class RentACarController extends Controller
 
          RentACar::Create([
             'car_id' => $request->carId,
-            'user_id' => 3,
+            'user_id' => $userId,
             'pick_up_location' =>$request->Pick_up_location,
             'drop_off_location' => $request->drop_off_location,
             'pick_up_date' => $request->pick_up_date,

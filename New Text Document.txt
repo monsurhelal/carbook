@@ -1,0 +1,212 @@
+@extends('admin.layout.master')
+@section('admin_title','dashboard')
+
+<style>
+    img.rounded {
+    height: 79px;
+    width: 80px;
+    border-radius: 50% !important;
+}
+</style>
+
+@section('admin_main_content')
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Car List Page</h4>
+                <a class="btn btn-primary" href="{{ route('car.create') }}">Add New</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">name</th>
+                                <th scope="col">email</th>
+                                <th scope="col">mobile</th>
+                                <th scope="col">car</th>
+                                <th scope="col">pick_up_location</th>
+                                <th scope="col">drop_off_location</th>
+                                <th scope="col">pick_up_date</th>
+                                <th scope="col">drop_off_date</th>
+                                <th scope="col">pick_up_time</th>
+                                <th scope="col">payment</th>
+                                <th scope="col">payment_status</th>
+                                <th scope="col">status</th>
+                                <th scope="col">assign driver</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($rentacars as $rentacar)
+                                <tr>
+                                    <td>{{ $rentacar->user->name }}</td>
+                                    <td>{{ $rentacar->user->email }}</td>
+                                    <td>{{ $rentacar->user->mobile }}</td>
+                                    <td>{{ $rentacar->car->car_name }}</td>
+                                    <td>{{ $rentacar->pick_up_location}}</td>
+                                    <td>{{ $rentacar->drop_off_location }}</td>
+                                    <td>{{ $rentacar->pick_up_date }}</td>
+                                    <td>{{ $rentacar->drop_off_date }}</td>
+                                    <td>{{ $rentacar->pick_up_time }}</td>
+                                    <td>{{ $rentacar->payment }}</td>
+                                    <td>
+                                        @if ($rentacar->payment_status == 0)
+                                            <span class="badge badge-warning">pending</span>
+                                        @else
+                                            <span class="badge badge-success">paid</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $rentacar->status }}</td>
+                                    <td>
+                                        <span>
+                                            @if ($rentacar->driver_id != null)
+                                                {{ $rentacar->driver->name }}
+                                            @else
+                                                <button 
+                                                    type="button" 
+                                                    class="btn btn-primary assign-btn" 
+                                                    data-toggle="modal" 
+                                                    data-target="#dynamicAssignModal"
+                                                    data-rentacar-id="{{ $rentacar->id }}" 
+                                                    title="Assign Driver"
+                                                >
+                                                    Assign Driver
+                                                </button>
+                                            @endif
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- মোডালটিকে লুপের বাইরে নিয়ে আসা হলো এবং এর ID পরিবর্তন করা হলো -->
+<div class="modal fade" id="dynamicAssignModal" tabindex="-1" role="dialog" aria-labelledby="dynamicAssignModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dynamicAssignModalLabel">Assign Driver to Car Rental</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ড্রাইভার ড্রপডাউন -->
+                <select class="form-control" id="driverId">
+                    <option disabled selected>Select Driver</option>
+                    @foreach ($drivers as $driver)
+                        <option value="{{ $driver->id }}">{{ $driver->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="modal-footer">
+                <!-- save-btn থেকে ডাইনামিক data-id সরিয়ে দেওয়া হয়েছে, যা জাভাস্ক্রিপ্ট দ্বারা সেট করা হবে -->
+                <button type="button" class="save-btn btn btn-primary" data-rentacar-id="">Save Assignment</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('admin_script')
+
+<script>
+$(document).ready(function(){
+
+    // $('.save-btn').on('click',function(){
+    //     let driverId = $('#driverId').val();
+    //     let rentCarId = $(type="button").data('id');
+    //     // let tergetModal = $(this).closest('td').data('target');
+    //     alert(rentCarId);
+    //     //console.log(rentCarId);
+        
+    // //    $.ajax({
+    // //         url:'/admin/assign-driver/'+driverId+'/'+rentCarId,
+    // //         method:'GET',
+    // //         dataType:'json',
+    // //         success:function(data){
+    // //             //alert('driver assign');
+    // //         },
+    // //         error:function(err){
+    // //            //alert('error');
+    // //         //    $('#basicModal').modal(toggle);
+    // //            $('#basicModal').removeClass("show");
+    // //         //    $('#basicModal').hide();
+    // //            var table = $('.table').DataTable();
+    // //             table.ajax.reload();
+                
+    // //         }
+            
+    // //     });
+    // });
+
+
+    // $('.save-btn').click(function(){
+    //     let driverId = $('#driverId').val();
+    //     let rentCarId = $(this).data('id'); 
+    //     alert("Driver ID: " + driverId + ", Rent Car ID: " + rentCarId);
+    // });
+
+
+});
+
+
+// ডকুমেন্ট লোড হওয়ার পর এই কোডটি কার্যকর হবে।
+$(document).ready(function() {
+    
+    // --- ১. Assign Driver বাটন ক্লিক হ্যান্ডলার ---
+    // যখন টেবিলের মধ্যে কোনো '.assign-btn' এ ক্লিক করা হয়।
+    $(document).on('click', '.assign-btn', function() {
+        
+        // ক্লিক করা বাটন থেকে rentacar-id সংগ্রহ করা হচ্ছে।
+        const rentCarId = $(this).data('rentacar-id');
+        
+        // ডাইনামিকভাবে মোডালের সেভ বাটনকে খুঁজে বের করে
+        // তার 'data-rentacar-id' অ্যাট্রিবিউটে সঠিক আইডিটি সেট করা হচ্ছে।
+        // যাতে সেভ করার সময় সঠিক রেন্টাল আইডি পাওয়া যায়।
+        $('#dynamicAssignModal').find('.save-btn').data('rentacar-id', rentCarId);
+        
+        // ঐচ্ছিক: মোডালের টাইটেল আপডেট করা
+        $('#dynamicAssignModalLabel').text(`Assign Driver to Rental ID: ${rentCarId}`);
+    });
+
+    
+    // --- ২. Modal Save বাটন ক্লিক হ্যান্ডলার ---
+    // যখন মোডালের ভেতরের '.save-btn' এ ক্লিক করা হয়।
+    $(document).on('click', '.save-btn', function() {
+        
+        // সিলেক্ট করা ড্রাইভার আইডি (select#driverId থেকে)
+        let driverId = $('#driverId').val();
+        
+        // মোডালের save বাটন থেকে ডাইনামিকভাবে সেট করা rentCarId নেওয়া হচ্ছে।
+        let rentCarId = $(this).data('rentacar-id'); 
+        
+        // ইনপুট ভ্যালিডেশন
+        if (!driverId || driverId === 'Select Driver') {
+            alert("অনুগ্রহ করে একজন ড্রাইভার নির্বাচন করুন।"); // Please select a driver
+            return;
+        }
+
+        // কনসোলে তথ্য দেখানো (বাস্তবে এখানে AJAX কল যাবে)
+        console.log(`Driver ID to assign: ${driverId}`);
+        console.log(`Car Rental ID: ${rentCarId}`);
+        
+        // এখানে আপনার AJAX কল বা সার্ভারে ডেটা পাঠানোর লজিক যোগ করুন।
+        
+        alert(`Assignment successful! Driver ${driverId} assigned to Rental ${rentCarId}.`);
+        
+        // সেভ করার পর মোডাল বন্ধ করা
+        $('#dynamicAssignModal').modal('hide');
+    });
+
+});
+
+</script>
+    
+@endpush

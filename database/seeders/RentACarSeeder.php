@@ -13,7 +13,7 @@ class RentACarSeeder extends Seeder
      */
     public function run(): void
     {
-        RentACar::updateOrCreate([
+        RentACar::Create([
             'car_id' => 1,
             'user_id' => 2,
             'pick_up_location' =>'dhaka rampura',
