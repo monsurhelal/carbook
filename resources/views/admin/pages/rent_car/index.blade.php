@@ -58,10 +58,25 @@
                                             <span class="badge badge-success">paid</span>
                                         @endif
                                     </td>
-                                    <td>{{ $rentacar->status }}</td>
+                                    <td>
+                                        @if ($rentacar->status == 0)
+                                             <span class="badge badge-warning">Running</span>
+                                        @else
+                                            <span class="badge badge-success">Trip Complite</span>
+                                        @endif
+                                    </td>
                                    <td>
+                                    @if ($rentacar->status == 0)
                                         @if ($rentacar->driver_id != null)
                                             {{ $rentacar->driver->name }} 
+                                                <button 
+                                                    type="button" 
+                                                    data-rentcar-id='{{ $rentacar->id }}' 
+                                                    class="assign-btn btn btn-primary"  
+                                                    data-toggle="modal" 
+                                                    data-target="#basicModal">
+                                                    Edit Driver
+                                                </button>
                                             @else
                                                 <button 
                                                     type="button" 
@@ -72,6 +87,9 @@
                                                     Assign Driver
                                                 </button>
                                         @endif
+                                    @else
+                                        <span style='font-size:35px;'>&#9989;</span>
+                                    @endif    
                                     </td>
                                 </tr>
                             @endforeach

@@ -16,12 +16,25 @@
 	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
 
-				@if (Auth::check() && Auth::user()->role == 0)
+			@if (Auth::guard('driver')->check() && Auth::guard('driver')->user())
+				<li class="nav-item"><a href="{{ route('driver.logout') }}" class="nav-link">Driver Logout</a></li>
+
+				@elseif (Auth::check() && Auth::user()->role == 0)
 					<li class="nav-item"><a href="{{ route('logout.user') }}" class="nav-link">Logout</a></li>
 
 				@else	
-					<li class="nav-item"><a href="{{ route('login.form') }}" class="nav-link">Login</a></li>
-				@endif
+					{{-- <li class="nav-item"><a href="{{ route('login.form') }}" class="nav-link">Login</a></li> --}}
+					<li class="nav-item">
+                        <div class="dropdown nav-link">
+							<a class="dropdown-toggle">Login</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="{{ route('login.form') }}"  type="button">User Login</a></li>
+								<li><a class="dropdown-item" href="{{ route('driver.login.form') }}" type="button">Driver Login</a></li>
+							</ul>
+						</div>
+                    </li>
+					
+			@endif
 	        </ul>
 	      </div>
 	    </div>

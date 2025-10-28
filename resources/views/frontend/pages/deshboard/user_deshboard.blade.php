@@ -6,7 +6,7 @@
     		<div class="row">
           <div class="col-md-8 align-items-center">
     			<div class="featured-top">
-                    <h2 class="text-white">welcome to deshboard</h2>
+                    <h2 class="text-white">welcome to deshboard-{{ Auth::user()->name }}</h2>
               </div>
             </div>
   		</div>

@@ -18,11 +18,12 @@ class ShowTripController extends Controller
     }
 
     public function assignDriver($driverId,$rentCarId){
-        $driverId = Driver::find($driverId)->id;
+        $driver = Driver::find($driverId);
         $rentCar = RentACar::with('driver:id,name')->find($rentCarId);
         $rentCar->update([
-            'driver_id' => $driverId
+            'driver_id' => $driver->id
         ]);
+        
         return response()->json(['success' => true, 'message' => 'Driver assigned successfully.']);
     }
 }

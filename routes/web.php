@@ -7,6 +7,9 @@ use App\Http\Controllers\Backend\FeatureController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PriceController;
 use App\Http\Controllers\backend\ShowTripController;
+use App\Http\Controllers\frontend\DriverDeshboardController;
+use App\Http\Controllers\frontend\DriverLoginController;
+use App\Http\Controllers\frontend\DriverTripShowController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\RentACarController;
 use App\Http\Controllers\frontend\UserDeshboardController;
@@ -28,9 +31,21 @@ Route::get('/car/{id}',function($id){
     ]);
 });
 
+// driver login routes here
+
+Route::prefix('driver')->group(function(){
+    Route::get('/login',[DriverLoginController::class,'driverLoginForm'])->name('driver.login.form');
+    Route::post('/login',[DriverLoginController::class,'driverLogin'])->name('driver.login');
+    Route::get('/logout',[DriverLoginController::class,'driverLogout'])->name('driver.logout');
+    Route::get('/deshboard',[DriverDeshboardController::class,'driverDeshboard'])->name('driver.deshboard');
+    Route::put('/payment-status/{id}',[DriverDeshboardController::class,'paymentStatus'])->name('payment.status');
+});
 
 
-// login routes here
+
+
+
+// user login routes here
 Route::get('/login',[UserLoginController::class,'loginForm'])->name('login.form');
 Route::post('/login',[UserLoginController::class,'login'])->name('login.user');
 Route::get('/user-logout',[UserLoginController::class,'userLogout'])->name('logout.user');
