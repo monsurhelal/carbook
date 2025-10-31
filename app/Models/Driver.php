@@ -16,4 +16,5 @@ class Driver extends Authenticatable
    public function car(){
       return $this->hasManyThrough(Car::class,RentACar::class,'driver_id','id','id','car_id');
    }
+
 }

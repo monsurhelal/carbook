@@ -14,4 +14,10 @@ class HomeController extends Controller
     return view('frontend.pages.home.home',compact('cars'));
    }
 
+   public function selectCar($id){
+   $car = Car::with('price:id,car_id,daily')->select('id','image','car_name')->find($id);
+
+   return response()->json(['success' => true,'data' => $car]);
+   }
+
 }

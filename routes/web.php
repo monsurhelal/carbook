@@ -22,14 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/',[HomeController::class,'index'])->name('home');
+Route::get('/car/{id}',[HomeController::class,'selectCar']);
 Route::resource('rentacar', RentACarController::class)->middleware('userAuth');
-// Route::get('/car/{id}',[RentACarController::class,'getCarId']);
-Route::get('/car/{id}',function($id){
-    $car = Car::with('price:id,car_id,daily')->select('id','image','car_name')->find($id);
-    return response()->json([
-    'success' => $car
-    ]);
-});
+
 
 // driver login routes here
 
@@ -46,13 +41,16 @@ Route::prefix('driver')->group(function(){
 
 
 // user login routes here
-Route::get('/login',[UserLoginController::class,'loginForm'])->name('login.form');
-Route::post('/login',[UserLoginController::class,'login'])->name('login.user');
-Route::get('/user-logout',[UserLoginController::class,'userLogout'])->name('logout.user');
-Route::get('/registation',[UserLoginController::class,'registationForm'])->name('registation.form');
-Route::post('/registation',[UserLoginController::class,'registation'])->name('registation.store');
+Route::prefix('user')->group(function(){
+    Route::get('/login',[UserLoginController::class,'loginForm'])->name('login.form');
+    Route::post('/login',[UserLoginController::class,'login'])->name('login.user');
+    Route::get('/user-logout',[UserLoginController::class,'userLogout'])->name('logout.user');
+    Route::get('/registation',[UserLoginController::class,'registationForm'])->name('registation.form');
+    Route::post('/registation',[UserLoginController::class,'registation'])->name('registation.store');
 
-Route::get('user/deshboard',[UserDeshboardController::class,'index'])->name('user.deshboard')->middleware('userAuth');;
+    Route::get('/deshboard',[UserDeshboardController::class,'index'])->name('user.deshboard')->middleware('userAuth');
+});
+
 
 
 

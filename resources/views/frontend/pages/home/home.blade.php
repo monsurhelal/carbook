@@ -424,31 +424,29 @@ function showCar(){
 	let carId = $('#selectCar').val();
 	// alert(carId);
 	$.ajax({
-		method:'GET',
-		url:'/car/'+ carId,
-		dataType:'josn',
-		success:function(res){
-
-			alert(res);
-			
-			//$('.showText').text(res.car_name);
-			
-		},
-		  error: function(error) {
-			let data = JSON.parse(error.responseText);
-
-			let display = `
-			<img class="display_car" src="{{ asset('admin/assets/images/cars/${data.success.image}') }}" alt="">
-			<div class="mb-3">
-				<p class="price ml-auto"> ${data.success.price.daily} <span>/day</span></p>
-		    </div>
-			`;
-
-			$('.car_image_display').html(display);
-			 console.log(data.success.image);
-
+    method: 'GET',
+    url: '/car/' + carId,
+    dataType: 'json', 
+    success: function(response) {
+        let carData = response.data;
+        
+        let basePath = '/admin/assets/images/cars/'; 
+        if (carData) {
+             let display = `
+                <img class="display_car" src="${basePath}${carData.image}" alt="${carData.car_name}">
+                <div class="mb-3">
+                    <p class="price ml-auto"> ${carData.price.daily} <span>/day</span></p>
+                </div>
+            `;
+            $('.car_image_display').html(display);
+            console.log("গাড়ির ছবি:", carData.image);
+        } else {
+            $('.car_image_display').html('<p class="text-danger">car information is missing</p>');
         }
-
-	});
+    },
+    error: function(error) {
+        console.error(error);
+    }
+});
 }
 </script>
